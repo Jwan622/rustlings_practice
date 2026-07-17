@@ -4,9 +4,15 @@ struct Point {
     y: u64,
 }
 
+// you can use the above struct in the enum below or you can use the Resize struct syntax that defines it in the enum.
+
 #[derive(Debug)]
 enum Message {
-    // TODO: Define the different variants used below.
+    Resize { width: i32, height: i32 },
+    Move (Point),
+    Echo (String),
+    ChangeColor (i32, i32, i32),
+    Quit,
 }
 
 impl Message {
@@ -21,7 +27,7 @@ fn main() {
             width: 10,
             height: 30,
         },
-        Message::Move(Point { x: 10, y: 15 }),
+        Message::Move(Point { x: 10, y: 20 }),
         Message::Echo(String::from("hello world")),
         Message::ChangeColor(200, 255, 255),
         Message::Quit,
