@@ -1,14 +1,14 @@
 // TODO: Fix the compiler error in this function.
-fn fill_vec(vec: Vec<i32>) -> Vec<i32> {
-    let vec = vec;
-
+fn fill_vec(mut vec: Vec<i32>) -> Vec<i32> {
     vec.push(88);
 
     vec
 }
 
 fn main() {
-    // You can optionally experiment here.
+    let mut vec1 = vec![0,1,2];
+    vec1.push(3);
+    println!("Vec is now {:?}", vec1)
 }
 
 #[cfg(test)]
