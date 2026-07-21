@@ -32,6 +32,10 @@ fn fruit_basket(basket: &mut HashMap<Fruit, u32>) {
         // TODO: Insert new fruits if they are not already present in the
         // basket. Note that you are not allowed to put any type of fruit that's
         // already present!
+        basket.entry(fruit).or_insert(1);
+        // if !basket.contains_key(&fruit) {
+        //      basket.insert(fruit, 1);
+        // }
     }
 }
 
@@ -52,7 +56,9 @@ mod tests {
     #[test]
     fn test_given_fruits_are_not_modified() {
         let mut basket = get_fruit_basket();
+        println!("the basket contents {:?}", basket);
         fruit_basket(&mut basket);
+        println!("the basket contents after calling fruit_basket {:?}", basket);
         assert_eq!(*basket.get(&Fruit::Apple).unwrap(), 4);
         assert_eq!(*basket.get(&Fruit::Mango).unwrap(), 2);
         assert_eq!(*basket.get(&Fruit::Lychee).unwrap(), 5);
@@ -88,6 +94,16 @@ mod tests {
         fruit_basket(&mut basket);
 
         for fruit_kind in fruit_kinds {
+            // let-else is a compact “must match this pattern or bail” form.
+            // Same thing as:
+            // match basket.get(&fruit_kind) {
+            //     Some(amount) => {
+            //         assert!(*amount > 0);
+            //     }
+            //     None => {
+            //         panic!("Fruit kind {fruit_kind:?} was not found in basket");
+            //     }
+            // }
             let Some(amount) = basket.get(&fruit_kind) else {
                 panic!("Fruit kind {fruit_kind:?} was not found in basket");
             };

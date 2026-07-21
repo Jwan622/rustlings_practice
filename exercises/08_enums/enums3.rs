@@ -43,9 +43,10 @@ impl State {
         self.quit = true;
     }
 
+    // Message is an enum
     fn process(&mut self, message: Message) {
         match message {
-            Message::Resize { width, height} => { self.resize(width, height)},
+            Message::Resize { width, height} => self.resize(width, height),
             Message::Move(point) => {self.move_position(point)},
             Message::Echo(some_str) => {self.echo(some_str)},
             Message::ChangeColor(red, green, blue) => {self.change_color(red, green, blue)},
