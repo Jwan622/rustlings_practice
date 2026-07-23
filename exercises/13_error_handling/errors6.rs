@@ -6,56 +6,40 @@
 
 use std::num::ParseIntError;
 
-#[derive(PartialEq, Debug)]
+#[derive(Debug, PartialEq)]
 enum CreationError {
     Negative,
-    Zero,
+    Zero
 }
 
-// A custom error type that we will be using in `PositiveNonzeroInteger::parse`.
-// this wraps either CreationErrors or ParseIntErrors... both error types. 
-#[derive(PartialEq, Debug)]
+#[derive(Debug, PartialEq)]
 enum ParsePosNonzeroError {
-    Creation(CreationError),
     ParseInt(ParseIntError),
-}
-
-impl ParsePosNonzeroError {
-    fn from_creation(err: CreationError) -> Self {
-        Self::Creation(err)
-    }
-
-    // TODO: Add another error conversion function here.
-    // fn from_parse_int(???) -> Self { ??? }
-    fn from_parse_int(err: ParseIntError) -> Self {
-        Self::ParseInt(err)
-    }
+    Creation(CreationError)
 }
 
 #[derive(PartialEq, Debug)]
 struct PositiveNonzeroInteger(u64);
 
 impl PositiveNonzeroInteger {
-    fn new(value: i64) -> Result<Self, CreationError> {
-        match value {
-            x if x < 0 => Err(CreationError::Negative),
-            0 => Err(CreationError::Zero),
-            x => Ok(Self(x as u64)),
+    fn new(num: i64) -> Result<Self, CreationError> {
+        if num < 0 {
+            Err(CreationError::Negative)
+        } else if num == 0 {
+            Err(CreationError::Zero)
+        } else {
+            Ok(Self(num as u64))
         }
     }
 
-    // the error type here in Result means errors from the parse method
-    // this function first checks if the input is parseable. If not, we error.
     fn parse(s: &str) -> Result<Self, ParsePosNonzeroError> {
-        // TODO: change this to return an appropriate error instead of panicking
-        // when `parse()` returns an error.
-        let x: i64 = s.parse().map_err(ParsePosNonzeroError::from_parse_int)?;
-        Self::new(x).map_err(ParsePosNonzeroError::from_creation)
+        let some_parsed_number = s.parse::<i64>().map_err(ParsePosNonzeroError::ParseInt)?;
+        Self::new(some_parsed_number).map_err(ParsePosNonzeroError::Creation)
     }
 }
 
 fn main() {
-    // You can optionally experiment here.
+
 }
 
 #[cfg(test)]
