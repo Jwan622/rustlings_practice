@@ -1,12 +1,14 @@
 // This powerful wrapper provides the ability to store a positive integer value.
 // TODO: Rewrite it using a generic so that it supports wrapping ANY type.
-struct Wrapper {
-    value: u32,
+struct Wrapper<t> {
+    value: t,
 }
 
 // TODO: Adapt the struct's implementation to be generic over the wrapped value.
-impl Wrapper {
-    fn new(value: u32) -> Self {
+// in impl blocks you need to use <t> twice. the 2nd one is for the generic struct named Wrapper<T>
+// the generic param is declared on impl
+impl<t> Wrapper<t> {
+    fn new(value: t) -> Self {
         Wrapper { value }
     }
 }
